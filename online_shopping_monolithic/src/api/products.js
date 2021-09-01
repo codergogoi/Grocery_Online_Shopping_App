@@ -9,11 +9,16 @@ module.exports = (app) => {
 
 
     app.post('/product/create', async(req,res,next) => {
-
-        const { name, desc, type, unit,price, available, suplier, banner } = req.body; 
-        // validation
-        const { data } =  await service.CreateProduct({ name, desc, type, unit,price, available, suplier, banner });
-        return res.json(data);
+        
+        try {
+            const { name, desc, type, unit,price, available, suplier, banner } = req.body; 
+            // validation
+            const { data } =  await service.CreateProduct({ name, desc, type, unit,price, available, suplier, banner });
+            return res.json(data);
+            
+        } catch (err) {
+            next(err)    
+        }
         
     });
 
@@ -25,8 +30,8 @@ module.exports = (app) => {
             const { data } = await service.GetProductsByCategory(type)
             return res.status(200).json(data);
 
-        } catch (error) {
-            return res.status(404).json({error});
+        } catch (err) {
+            next(err)
         }
 
     });
@@ -39,18 +44,22 @@ module.exports = (app) => {
             const { data } = await service.GetProductDescription(productId);
             return res.status(200).json(data);
 
-        } catch (error) {
-            return res.status(404).json({error});
-
+        } catch (err) {
+            next(err)
         }
 
     });
 
     app.post('/ids', async(req,res,next) => {
 
-        const { ids } = req.body;
-        const products = await service.GetSelectedProducts(ids);
-        return res.status(200).json(products);
+        try {
+            const { ids } = req.body;
+            const products = await service.GetSelectedProducts(ids);
+            return res.status(200).json(products);
+            
+        } catch (err) {
+            next(err)
+        }
        
     });
      
@@ -58,11 +67,13 @@ module.exports = (app) => {
 
         const { _id } = req.user;
         
-        const product = await service.GetProductById(req.body._id);
-        
-        await customerService.AddToWishlist(_id, product)
-         
-        res.status(200).json(product);
+        try {
+            const product = await service.GetProductById(req.body._id);
+            const wishList = await customerService.AddToWishlist(_id, product)
+            return res.status(200).json(wishList);
+        } catch (err) {
+            
+        }
     });
     
     app.delete('/wishlist/:id',UserAuth, async (req,res,next) => {
@@ -70,34 +81,43 @@ module.exports = (app) => {
         const { _id } = req.user;
         const productId = req.params.id;
 
-        const product = await service.GetProductById(productId);
-        
-        await customerService.AddToWishlist(_id, product)
-
-        res.status(200).json(product);
+        try {
+            const product = await service.GetProductById(productId);
+            const wishlist = await customerService.AddToWishlist(_id, product)
+            return res.status(200).json(wishlist);
+        } catch (err) {
+            next(err)
+        }
     });
 
 
     app.put('/cart',UserAuth, async (req,res,next) => {
-
+        
         const { _id, qty } = req.body;
-         
-        const product = await service.GetProductById(_id);
-
-        await customerService.ManageCart(req.user._id, product, qty, false);
-
-        res.status(200).json(product);
+        
+        try {     
+            const product = await service.GetProductById(_id);
+    
+            const result =  await customerService.ManageCart(req.user._id, product, qty, false);
+    
+            return res.status(200).json(result);
+            
+        } catch (err) {
+            next(err)
+        }
     });
     
     app.delete('/cart/:id',UserAuth, async (req,res,next) => {
 
         const { _id } = req.user;
 
-        const product = await service.GetProductById(req.params.id);
-
-        await customerService.ManageCart(_id, product, 0 , true);
-         
-        res.status(200).json(product);
+        try {
+            const product = await service.GetProductById(req.params.id);
+            const result = await customerService.ManageCart(_id, product, 0 , true);             
+            return res.status(200).json(result);
+        } catch (err) {
+            next(err)
+        }
     });
 
     //get Top products and category
@@ -106,10 +126,8 @@ module.exports = (app) => {
         try {
             const { data} = await service.GetProducts();        
             return res.status(200).json(data);
-
         } catch (error) {
-            return res.status(404).json({error});
-
+            next(err)
         }
         
     });

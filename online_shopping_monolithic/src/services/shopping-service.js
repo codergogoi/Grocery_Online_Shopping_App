@@ -12,15 +12,27 @@ class ShoppingService {
 
         const { _id, txnNumber } = userInput
 
-        const orderResult = await this.repository.CreateNewOrder(_id, txnNumber);
+        // Verify the txn number with payment logs
         
-        return FormateData(orderResult);
+
+
+        
+        try {
+            const orderResult = await this.repository.CreateNewOrder(_id, txnNumber);
+            return FormateData(orderResult);    
+        } catch (err) {
+            throw new APIError('Data Not found', err)
+        }
+        
     }
 
     async GetOrders(customerId){
-        
-        const orders = await this.repository.Orders(customerId);
-        return FormateData(orders)
+        try {
+            const orders = await this.repository.Orders(customerId);
+            return FormateData(orders)
+        } catch (err) {
+            throw new APIError('Data Not found', err)
+        }
     }
   
 }

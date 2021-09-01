@@ -1,17 +1,16 @@
-const dotenv  = require("dotenv");
+const dotEnv  = require("dotenv");
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
-const envFound = dotenv.config();
-
-if(envFound.error){
-    throw new Error('Cound not find .env!');
-}else{
-    console.log(envFound);
+if (process.env.NODE_ENV !== 'prod') {
+    const configFile =  `./.env.${process.env.NODE_ENV}`;
+    dotEnv.config({ path:  configFile });
+} else {
+    dotEnv.config();
 }
 
 module.exports = {
-    PORT: parseInt(process.env.PORT || '8003', 10),
-    DB_URL: process.env.MONGODB_URI || 'mongodb://localhost:27017/amazon_demo_db',
-    APP_SECRET: process.env.APP_SECRET || 'jwt_secret'
+
+    PORT: process.env.PORT,
+    DB_URL: process.env.MONGODB_URI,
+    APP_SECRET: process.env.APP_SECRET
 }
+ 

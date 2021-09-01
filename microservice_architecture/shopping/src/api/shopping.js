@@ -1,6 +1,6 @@
 const ShoppingService = require("../services/shopping-service");
 const { PublishCustomerEvent } = require("../utils");
-const  UserAuth = require('./middlewares/auth');
+const UserAuth = require('./middlewares/auth');
 
 module.exports = (app) => {
     
@@ -11,13 +11,20 @@ module.exports = (app) => {
         const { _id } = req.user;
         const { txnNumber } = req.body;
 
-        const { data } = await service.PlaceOrder({_id, txnNumber});
-        
-        const payload = await service.GetOrderPayload(_id, data, 'CREATE_ORDER')
 
-        PublishCustomerEvent(payload)
+        try {
+            const { data } = await service.PlaceOrder({_id, txnNumber});
 
-        res.status(200).json(data);
+
+            const payload = await service.GetOrderPayload(_id, data, 'CREATE_ORDER');
+
+            PublishCustomerEvent(payload);
+
+            return res.status(200).json(data);
+            
+        } catch (err) {
+            next(err)
+        }
 
     });
 
@@ -25,40 +32,30 @@ module.exports = (app) => {
 
         const { _id } = req.user;
 
-        const { data } = await service.GetOrders(_id);
-        
-        res.status(200).json(data);
+        try {
+            const { data } = await service.GetOrders(_id);
+
+            return res.status(200).json(data);
+        } catch (err) {
+            next(err);
+        }
 
     });
 
-    app.put('/cart',UserAuth, async (req,res,next) => {
+    app.get('/cart', UserAuth, async(req,res,next) => {
 
         const { _id } = req.user;
 
-        const { data } = await service.AddToCart(_id, req.body._id);
-        
-        res.status(200).json(data);
-
-    });
-
-    app.delete('/cart/:id',UserAuth, async (req,res,next) => {
-
-        const { _id } = req.user;
-
-
-        const { data } = await service.AddToCart(_id, req.body._id);
-        
-        res.status(200).json(data);
-
-    });
+        try {
+            
+            const { data } = await service.getCart({ _id });
     
-    app.get('/cart', UserAuth, async (req,res,next) => {
-
-        const { _id } = req.user;
-        
-        const { data } = await service.GetCart({ _id });
-
-        return res.status(200).json(data);
-    });
- 
+            return res.status(200).json(data);
+            
+        } catch (err) {
+            throw err;
+        }
+    })
+       
+     
 }

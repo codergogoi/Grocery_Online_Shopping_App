@@ -26,6 +26,8 @@ module.exports.ValidateSignature  = async(req) => {
 
         const signature = req.get('Authorization');
 
+        console.log(signature);
+        
         if(signature){
             const payload = await jwt.verify(signature.split(' ')[1], APP_SECRET);
             req.user = payload;
@@ -43,21 +45,15 @@ module.exports.FormateData = (data) => {
         }
     }
 
-
-//Raise Events
 module.exports.PublishCustomerEvent = async(payload) => {
-
-    axios.post('http://localhost:8000/customer/app-events/',{
-        payload
-    });
-    
+        
+        axios.post('http://localhost:8000/customer/app-events', {
+                payload
+        })
 }
 
 module.exports.PublishShoppingEvent = async(payload) => {
-
-        axios.post('http://localhost:8000/shopping/app-events/',{
+        axios.post('http://localhost:8000/shopping/app-events', {
                 payload
-        });
-        
+        })
 }
- 
