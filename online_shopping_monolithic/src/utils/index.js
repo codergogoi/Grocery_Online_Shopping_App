@@ -6,7 +6,7 @@ const { APP_SECRET } = require('../config');
 //Utility functions
 module.exports.GenerateSalt = async() => {
         return await bcrypt.genSalt()    
-},
+};
 
 module.exports.GeneratePassword = async (password, salt) => {
         return await bcrypt.hash(password, salt);
@@ -19,7 +19,7 @@ module.exports.ValidatePassword = async (enteredPassword, savedPassword, salt) =
 
 module.exports.GenerateSignature = async (payload) => {
         return await jwt.sign(payload, APP_SECRET, { expiresIn: '1d'} )
-}, 
+};
 
 module.exports.ValidateSignature  = async(req) => {
 
