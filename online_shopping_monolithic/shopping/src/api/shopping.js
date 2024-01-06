@@ -15,7 +15,7 @@ module.exports = (app) => {
         try {
             const { data } = await service.PlaceOrder({_id, txnNumber});
             const payload = await service.GetOrderPayload(_id, data, 'CREATE_ORDER');
-            PublishingCustomerEvent(payload);
+            PublishingCustomerEvent(payload.data);
             return res.status(200).json(data);
             
         } catch (err) {
