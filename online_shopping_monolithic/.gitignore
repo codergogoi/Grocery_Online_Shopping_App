@@ -1,0 +1,4 @@
+./online_shopping_monolithic/gateway/.env.dev
+./online_shopping_monolithic/customer/.env.dev
+./online_shopping_monolithic/product/.env.dev
+./online_shopping_monolithic/shopping/.env.dev

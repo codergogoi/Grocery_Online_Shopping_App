@@ -4,7 +4,6 @@ module.exports = (app) => {
   const service = new CustomerService(app);
   app.use("/app-events", async (req, res, next) => {
     const { payload } = req.body;
-    console.log("heee");
     service.SubscribeEvents(payload);
     console.log("--Customer Service receiving events--");
     return res.status(200).json(payload);
