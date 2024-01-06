@@ -1,16 +1,10 @@
 const express = require('express');
-const { PORT } = require('./config');
-const { databaseConnection } = require('./database');
-const expressApp = require('./express-app');
 const cors = require('cors');
 const proxy = require("express-http-proxy");
+const PORT = 8000;
 
 const StartServer = async() => {
     const app = express();
-    
-    await databaseConnection();
-    
-    await expressApp(app);
 
     app.use(cors());
     app.use(express.json());

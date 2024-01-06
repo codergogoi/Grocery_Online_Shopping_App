@@ -51,9 +51,13 @@ module.exports.FormateData = (data) => {
 };
 
 module.exports.PublishingCustomerEvent = (payload) => {
-  axios.post("localhost:8000/customer/app-event", {payload})
+  console.log(payload);
+  axios.post("localhost:8000/customer/app-events", { 
+        event: "TESTING",
+        data: {}
+    } )
 }
 
 module.exports.PublishingShoppingEvent = (payload) => {
-  axios.post("localhost:8000/shopping/app-event", { payload });
+  axios.post("localhost:8000/shopping/app-events", { payload });
 };
