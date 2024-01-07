@@ -1,4 +1,0 @@
-{"level":"error","message":"Sat Jan 06 2024 17:18:41 GMT+0700 (Indochina Time)-{\"name\":\"Data Not found\",\"statusCode\":500,\"isOperational\":true}","private":true}
-{"level":"error","message":"Sat Jan 06 2024 17:25:52 GMT+0700 (Indochina Time)-{\"name\":\"Data Not found\",\"statusCode\":500,\"isOperational\":true}","private":true}
-{"level":"error","message":"Sat Jan 06 2024 21:32:00 GMT+0700 (Indochina Time)-{\"name\":\"Data Not found\",\"statusCode\":{\"name\":\"API Error\",\"statusCode\":500,\"isOperational\":true},\"isOperational\":true}","private":true}
-{"level":"error","message":"Sat Jan 06 2024 21:33:44 GMT+0700 (Indochina Time)-{\"name\":\"Data Not found\",\"statusCode\":500,\"isOperational\":true}","private":true}

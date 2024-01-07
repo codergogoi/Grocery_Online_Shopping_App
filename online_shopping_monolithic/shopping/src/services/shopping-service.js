@@ -56,7 +56,7 @@ class ShoppingService {
     const { event, data } = payload;
 
     const { userId, product, order, qty } = data;
-
+    console.log(event);
     switch (event) {
       case "ADD_TO_CART":
         this.ManageCart(userId, product, qty, false);
