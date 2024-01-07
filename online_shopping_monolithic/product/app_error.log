@@ -17,3 +17,4 @@
 {"level":"error","message":"Sat Jan 06 2024 21:44:33 GMT+0700 (Indochina Time)-{}","private":true}
 {"level":"error","message":"Sat Jan 06 2024 21:46:09 GMT+0700 (Indochina Time)-{}","private":true}
 {"level":"error","message":"Sun Jan 07 2024 10:31:41 GMT+0700 (Indochina Time)-{}","private":true}
+{"level":"error","message":"Sun Jan 07 2024 07:35:22 GMT+0000 (Coordinated Universal Time)-{\"name\":\"Data Not found\",\"statusCode\":500,\"isOperational\":true}","private":true}
